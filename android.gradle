@@ -27,9 +27,11 @@ android {
     buildTypes {
         release {
             buildConfigField 'String', 'OPEN_WEATHER_API_KEY', props['OPEN_WEATHER_API_KEY']
+            buildConfigField 'String', 'LAST_FM_API_KEY', props['LAST_FM_API_KEY']
         }
         debug {
             buildConfigField 'String', 'OPEN_WEATHER_API_KEY', props['DEBUG_OPEN_WEATHER_API_KEY']
+            buildConfigField 'String', 'LAST_FM_API_KEY', props['LAST_FM_API_KEY']
         }
     }
 }
