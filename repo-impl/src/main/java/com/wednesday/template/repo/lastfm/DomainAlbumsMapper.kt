@@ -12,12 +12,10 @@ class DomainAlbumsMapperImpl : DomainAlbumsMapper {
         return with(from) {
             Album(
                 artist = artist,
-                mbid = mbid,
                 name = name,
-                streamable = streamable,
-                smallImage = image?.firstOrNull { it.size == "small" }?.text,
-                mediumImage = image?.firstOrNull { it.size == "medium" }?.text,
-                xlImage = image?.firstOrNull { it.size == "extralarge" }?.text,
+                smallImage = image.firstOrNull { it.size == "small" }?.text,
+                mediumImage = image.firstOrNull { it.size == "medium" }?.text,
+                xlImage = image.firstOrNull { it.size == "extralarge" }?.text,
                 url = url
             )
         }

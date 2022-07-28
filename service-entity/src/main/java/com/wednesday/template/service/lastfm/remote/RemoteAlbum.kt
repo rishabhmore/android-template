@@ -9,15 +9,11 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class RemoteAlbum(
     @SerialName("artist")
-    val artist: String?,
+    val artist: String,
     @SerialName("image")
-    val image: List<RemoteImageData>?,
-    @SerialName("mbid")
-    val mbid: String?,
+    val image: List<RemoteImageData>,
     @SerialName("name")
-    val name: String?,
-    @SerialName("streamable")
-    val streamable: String?,
+    val name: String,
     @SerialName("url")
-    val url: String?
+    val url: String
 )

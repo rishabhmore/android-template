@@ -9,7 +9,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class RemoteImageData(
     @SerialName("size")
-    val size: String?,
+    val size: String,
     @SerialName("#text")
-    val text: String?
+    val text: String
 )
