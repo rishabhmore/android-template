@@ -4,6 +4,7 @@ import com.wednesday.template.interactor.base.CoroutineContextController
 import com.wednesday.template.interactor.base.CoroutineContextControllerImpl
 import com.wednesday.template.interactor.base.datetime.UIDateMapper
 import com.wednesday.template.interactor.base.datetime.UIDateMapperImpl
+import com.wednesday.template.interactor.lastfm.*
 import com.wednesday.template.interactor.weather.FavouriteWeatherInteractor
 import com.wednesday.template.interactor.weather.SearchCityInteractor
 import com.wednesday.template.interactor.weather.UICityMapper
@@ -31,7 +32,16 @@ val interactorModule = module {
 
     single<UIWeatherListMapper> { UIWeatherListMapperImpl() }
 
-    factory<FavouriteWeatherInteractor> { FavouriteWeatherInteractorImpl(get(), get(), get(), get(), get(), get(), get(), get()) }
+    factory<FavouriteWeatherInteractor> {
+        FavouriteWeatherInteractorImpl(get(), get(), get(), get(), get(), get(), get(), get())
+    }
 
     factory<SearchCityInteractor> { SearchCityInteractorImpl(get(), get(), get(), get()) }
+
+    //Last FM
+    single<UIAlbumMapper> { UIAlbumMapperImpl() }
+
+    single<UIAlbumSearchResultsMapper> { UIAlbumSearchResultsMapperImpl(get()) }
+
+    factory<SearchAlbumInteractor> { SearchAlbumInteractorImpl(get(), get(), get()) }
 }
