@@ -4,18 +4,9 @@ import com.wednesday.template.domain.base.datetime.ConvertDateToLongUseCase
 import com.wednesday.template.domain.base.datetime.ConvertDateToLongUseCaseImpl
 import com.wednesday.template.domain.base.datetime.FormatDateUseCase
 import com.wednesday.template.domain.base.datetime.FormatDateUseCaseImpl
-import com.wednesday.template.domain.weather.FetchFavouriteCitiesWeatherUseCase
-import com.wednesday.template.domain.weather.FetchFavouriteCitiesWeatherUseCaseImpl
-import com.wednesday.template.domain.weather.GetFavouriteCitiesFlowUseCase
-import com.wednesday.template.domain.weather.GetFavouriteCitiesFlowUseCaseImpl
-import com.wednesday.template.domain.weather.GetFavouriteCitiesWeatherFlowUseCase
-import com.wednesday.template.domain.weather.GetFavouriteCitiesWeatherFlowUseCaseImpl
-import com.wednesday.template.domain.weather.RemoveCityFavouriteUseCase
-import com.wednesday.template.domain.weather.RemoveCityFavouriteUseCaseImpl
-import com.wednesday.template.domain.weather.SearchCitiesUseCase
-import com.wednesday.template.domain.weather.SearchCitiesUseCaseImpl
-import com.wednesday.template.domain.weather.SetCityFavouriteUseCase
-import com.wednesday.template.domain.weather.SetCityFavouriteUseCaseImpl
+import com.wednesday.template.domain.lastfm.SearchAlbumsUseCase
+import com.wednesday.template.domain.lastfm.SearchAlbumsUseCaseImpl
+import com.wednesday.template.domain.weather.*
 import org.koin.dsl.module
 
 val domainModule = module {
@@ -37,4 +28,7 @@ val domainModule = module {
     single<GetFavouriteCitiesWeatherFlowUseCase> { GetFavouriteCitiesWeatherFlowUseCaseImpl(get()) }
 
     single<FetchFavouriteCitiesWeatherUseCase> { FetchFavouriteCitiesWeatherUseCaseImpl(get()) }
+
+    //Last FM
+    single<SearchAlbumsUseCase> { SearchAlbumsUseCaseImpl(get()) }
 }
