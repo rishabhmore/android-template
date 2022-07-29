@@ -9,8 +9,9 @@ class AlbumRepositoryImpl(
 ): AlbumRepository {
 
     override suspend fun searchAlbums(searchQuery: String): List<Album> {
-        return lastFMRemoteService.searchAlbums(album = searchQuery)
-            .let { response -> domainAlbumsMapper.map(response.results?.matches?.album) }
+        val resp = lastFMRemoteService.searchAlbums(album = searchQuery)
+        val mappedResult = domainAlbumsMapper.map(resp.results?.matches?.album)
+        return mappedResult
     }
 
 }

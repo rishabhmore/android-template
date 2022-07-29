@@ -18,7 +18,8 @@ import com.wednesday.template.resources.databinding.FragmentSearchBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
-class SearchFragment : MainFragment<FragmentSearchBinding,
+class SearchFragment : MainFragment<
+    FragmentSearchBinding,
     SearchScreen,
     SearchScreenState,
     SearchNavigator,
