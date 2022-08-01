@@ -6,19 +6,21 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import coil.size.Size
+import com.wednesday.template.presentation.base.UIListItemBase
 import com.wednesday.template.presentation.databinding.ItemAlbumSearchBinding
 import com.wednesday.template.presentation.lastfm.UIAlbum
 
 class AlbumResultsAdapter : RecyclerView.Adapter<AlbumResultsAdapter.AlbumResultsViewHolder>() {
 
-    private val diffCallback = object : DiffUtil.ItemCallback<UIAlbum>() {
+    private val diffCallback = object : DiffUtil.ItemCallback<UIListItemBase>() {
 
         override fun areItemsTheSame(
-            oldItem: UIAlbum, newItem: UIAlbum
+            oldItem: UIListItemBase, newItem: UIListItemBase
         ): Boolean = oldItem.id == newItem.id
 
         override fun areContentsTheSame(
-            oldItem: UIAlbum, newItem: UIAlbum
+            oldItem: UIListItemBase, newItem: UIListItemBase
         ): Boolean = oldItem == newItem
     }
 
@@ -35,7 +37,7 @@ class AlbumResultsAdapter : RecyclerView.Adapter<AlbumResultsAdapter.AlbumResult
 
     override fun onBindViewHolder(
         holder: AlbumResultsViewHolder, position: Int
-    ) = holder.bind(differ.currentList[position])
+    ) = holder.bind(differ.currentList[position] as UIAlbum)
 
     inner class AlbumResultsViewHolder(
         val binding: ItemAlbumSearchBinding
@@ -44,7 +46,9 @@ class AlbumResultsAdapter : RecyclerView.Adapter<AlbumResultsAdapter.AlbumResult
         fun bind(album: UIAlbum) {
             binding.albumName.text = album.name
             binding.artistName.text = album.artist
-            binding.albumPreview.load(album.mediumImage)
+            binding.albumPreview.load(album.mediumImage) {
+                size(Size.ORIGINAL)
+            }
         }
     }
 }

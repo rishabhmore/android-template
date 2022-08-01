@@ -1,5 +1,6 @@
 package com.wednesday.template.presentation
 
+import com.wednesday.template.presentation.lastfm.search.AlbumSearchViewModel
 import com.wednesday.template.presentation.weather.home.HomeViewModel
 import com.wednesday.template.presentation.weather.search.SearchViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -9,4 +10,7 @@ val presentationModule = module {
     viewModel { SearchViewModel(get(), get()) }
 
     viewModel { HomeViewModel(get()) }
+
+    //Last FM
+    viewModel { AlbumSearchViewModel(get()) }
 }
