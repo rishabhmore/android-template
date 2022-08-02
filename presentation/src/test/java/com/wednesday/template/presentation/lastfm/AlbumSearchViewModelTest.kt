@@ -63,6 +63,7 @@ class AlbumSearchViewModelTest : BaseViewModelTest() {
                 verify().onChanged(null)
                 verify().onChanged(initialState)
                 verify().onChanged(initialState.copy(searchList = uiList.data))
+                verify().onChanged(initialState)
                 verifyNoMoreInteractions()
             }
             verify(interactor, times(1)).albumResults
