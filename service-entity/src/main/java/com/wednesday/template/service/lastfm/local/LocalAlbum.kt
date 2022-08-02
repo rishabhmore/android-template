@@ -7,8 +7,8 @@ import androidx.room.PrimaryKey
 @Keep
 @Entity(tableName = "saved_albums")
 data class LocalAlbum(
-    @PrimaryKey
-    val id: Int,
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 0,
     val artist: String,
     val name: String,
     val smallImage: String?,
