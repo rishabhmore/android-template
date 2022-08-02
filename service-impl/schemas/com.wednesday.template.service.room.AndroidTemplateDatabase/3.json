@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 3,
-    "identityHash": "7ec06119b58e8f3ce90726de2343217e",
+    "identityHash": "4bac696aac22eb5ad36dda2b807c27b0",
     "entities": [
       {
         "tableName": "favorite_locations",
@@ -218,12 +218,68 @@
         },
         "indices": [],
         "foreignKeys": []
+      },
+      {
+        "tableName": "saved_albums",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `artist` TEXT NOT NULL, `name` TEXT NOT NULL, `smallImage` TEXT, `mediumImage` TEXT, `xlImage` TEXT, `url` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "artist",
+            "columnName": "artist",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "smallImage",
+            "columnName": "smallImage",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "mediumImage",
+            "columnName": "mediumImage",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "xlImage",
+            "columnName": "xlImage",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "url",
+            "columnName": "url",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '7ec06119b58e8f3ce90726de2343217e')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '4bac696aac22eb5ad36dda2b807c27b0')"
     ]
   }
 }
