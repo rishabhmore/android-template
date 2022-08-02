@@ -4,8 +4,10 @@ import com.wednesday.template.service.base.getRoomDatabase
 import com.wednesday.template.service.base.retrofit.getLastFMRetrofit
 import com.wednesday.template.service.base.retrofit.getOpenWeatherRetrofit
 import com.wednesday.template.service.base.retrofit.interceptors.OpenWeatherApiKeyInterceptor
+import com.wednesday.template.service.lastfm.LastFMLocalServiceImpl
 import com.wednesday.template.service.openWeather.OpenWeatherLocalServiceImpl
 import com.wednesday.template.service.room.AndroidTemplateDatabase
+import com.wednesday.template.service.weather.LastFMLocalService
 import com.wednesday.template.service.weather.LastFMRemoteService
 import com.wednesday.template.service.weather.OpenWeatherLocalService
 import com.wednesday.template.service.weather.OpenWeatherRemoteService
@@ -34,10 +36,12 @@ val serviceModule = module {
 
     //Last FM
     single { getLastFMRemoteService(get(qualifier = named("LastFM"))) }
+
+    single<LastFMLocalService> { getLastFMLocalService(get()) }
 }
 
 fun getWeatherLocalService(database: AndroidTemplateDatabase): OpenWeatherLocalServiceImpl {
-    return database.databaseDao()
+    return database.weatherDao()
 }
 
 fun getWeatherRemoteService(retrofit: Retrofit): OpenWeatherRemoteService {
@@ -45,6 +49,10 @@ fun getWeatherRemoteService(retrofit: Retrofit): OpenWeatherRemoteService {
 }
 
 //Last FM
+fun getLastFMLocalService(database: AndroidTemplateDatabase): LastFMLocalServiceImpl {
+    return database.albumDao()
+}
+
 fun getLastFMRemoteService(retrofit: Retrofit): LastFMRemoteService {
     return retrofit.create(LastFMRemoteService::class.java)
 }

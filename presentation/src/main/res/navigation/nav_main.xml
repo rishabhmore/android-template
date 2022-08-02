@@ -17,5 +17,13 @@
         <action
             android:id="@+id/action_startFragment_to_searchFragment"
             app:destination="@id/searchFragment" />
+        <action
+            android:id="@+id/action_startFragment_to_albumSearchFragment"
+            app:destination="@id/albumSearchFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/albumSearchFragment"
+        android:name="com.wednesday.template.presentation.lastfm.search.AlbumSearchFragment"
+        android:label="fragment_album_search"
+        tools:layout="@layout/fragment_album_search" />
 </navigation>
