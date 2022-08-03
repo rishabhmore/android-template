@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface SearchAlbumInteractor {
 
-    val albumResults: Flow<UIResult<UIList>>
+    val searchAlbumResults: Flow<UIResult<UIList>>
 
     suspend fun search(query: String)
 }
