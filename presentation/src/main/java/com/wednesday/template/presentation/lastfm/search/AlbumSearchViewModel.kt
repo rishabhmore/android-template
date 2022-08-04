@@ -1,6 +1,7 @@
 package com.wednesday.template.presentation.lastfm.search
 
 import androidx.lifecycle.viewModelScope
+import com.wednesday.template.interactor.lastfm.SavedAlbumsInteractor
 import com.wednesday.template.interactor.lastfm.SearchAlbumInteractor
 import com.wednesday.template.navigation.BaseNavigator
 import com.wednesday.template.presentation.R
@@ -15,6 +16,7 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 class AlbumSearchViewModel(
+    private val savedAlbumsInteractor: SavedAlbumsInteractor,
     private val searchAlbumInteractor: SearchAlbumInteractor
 ) : BaseViewModel<AlbumSearchScreen, AlbumSearchScreenState, BaseNavigator>(),
     IntentHandler<AlbumSearchScreenIntent>
@@ -39,7 +41,7 @@ class AlbumSearchViewModel(
     }
 
     override fun onCreate(fromRecreate: Boolean) {
-        searchAlbumInteractor.albumResults.onEach {
+        searchAlbumInteractor.searchAlbumResults.onEach {
             when (it) {
                 is UIResult.Success -> {
                     setState { copy(showLoading = false, searchList = it.data) }
@@ -84,6 +86,17 @@ class AlbumSearchViewModel(
                 viewModelScope.launch {
                     //Send our string query to the search queue
                     albumSearchStringQueue.value = intent.query
+                }
+            }
+            is AlbumSearchScreenIntent.ToggleSavedAlbum -> {
+                viewModelScope.launch {
+                    if(intent.album.isSaved){
+                        //If already saved, then we will remove it
+                        savedAlbumsInteractor.removeAlbum(intent.album)
+                    } else {
+                        //We add this album to our saved list
+                        savedAlbumsInteractor.saveAlbum(intent.album)
+                    }
                 }
             }
             is AlbumSearchScreenIntent.Back -> navigator.back()
