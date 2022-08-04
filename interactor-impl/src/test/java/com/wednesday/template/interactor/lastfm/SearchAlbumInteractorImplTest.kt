@@ -2,6 +2,7 @@ package com.wednesday.template.interactor.lastfm
 
 import app.cash.turbine.test
 import com.wednesday.template.domain.base.Result
+import com.wednesday.template.domain.lastfm.GetFavouriteAlbumsFlowUseCase
 import com.wednesday.template.domain.lastfm.SearchAlbumsUseCase
 import com.wednesday.template.interactor.base.CoroutineContextController
 import com.wednesday.template.interactor.base.InteractorTest
@@ -11,6 +12,7 @@ import com.wednesday.template.interactor.lastfm.models.uiAlbum
 import com.wednesday.template.presentation.base.UIList
 import com.wednesday.template.presentation.base.UIResult
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
@@ -24,6 +26,7 @@ import kotlin.time.ExperimentalTime
 class SearchAlbumInteractorImplTest : InteractorTest() {
 
     private lateinit var searchAlbumsUseCase: SearchAlbumsUseCase
+    private lateinit var favouriteAlbumsFlowUseCase: GetFavouriteAlbumsFlowUseCase
     private lateinit var uiAlbumSearchResultsMapper: UIAlbumSearchResultsMapper
     private lateinit var coroutineContextController: CoroutineContextController
     private lateinit var interactor: SearchAlbumInteractorImpl
@@ -31,6 +34,7 @@ class SearchAlbumInteractorImplTest : InteractorTest() {
     @Before
     fun setup() {
         searchAlbumsUseCase = mock()
+        favouriteAlbumsFlowUseCase = mock()
         uiAlbumSearchResultsMapper = mock()
         coroutineContextController = coroutineDispatcherRule.coroutineContextController
     }
@@ -46,27 +50,29 @@ class SearchAlbumInteractorImplTest : InteractorTest() {
     private fun createInteractor() {
         interactor = SearchAlbumInteractorImpl(
             searchAlbumsUseCase,
+            favouriteAlbumsFlowUseCase,
             uiAlbumSearchResultsMapper,
             coroutineContextController
         )
     }
 
     private fun verifyNoMoreInteractions() {
-        org.mockito.kotlin.verifyNoMoreInteractions(
+        verifyNoMoreInteractions(
             searchAlbumsUseCase,
             uiAlbumSearchResultsMapper
         )
     }
 
     @Test
-    fun `Given no error occurs, When search called, Then album results flow emits UIList of results`(): Unit =
+    fun `Given no error occurs, When search called, Then search album results flow emits UIList of results`(): Unit =
         runTest {
             //Given
             val searchQuery = "Magnatron"
             val albumList = listOf(album)
             val uiList = UIList(uiAlbum)
             whenever(searchAlbumsUseCase(searchQuery)).thenReturn(Result.Success(albumList))
-            whenever(uiAlbumSearchResultsMapper.map(albumList)).thenReturn(uiList)
+            whenever(favouriteAlbumsFlowUseCase(Unit)).thenReturn(flowOf(Result.Success(albumList)))
+            whenever(uiAlbumSearchResultsMapper.map(any(), any())).thenReturn(uiList)
 
             launchInTestScope {
                 println("Creating Interactor")
@@ -74,7 +80,7 @@ class SearchAlbumInteractorImplTest : InteractorTest() {
                 println("Interactor Created")
 
                 //When
-                interactor.albumResults.test {
+                interactor.searchAlbumResults.test {
                     interactor.search(searchQuery)
 
                     val result = awaitItem()
@@ -83,7 +89,8 @@ class SearchAlbumInteractorImplTest : InteractorTest() {
                     assertTrue(result is UIResult.Success)
                     assertEquals(actual = result.data, expected = uiList)
                     verify(searchAlbumsUseCase, times(1)).invoke(same(searchQuery))
-                    verify(uiAlbumSearchResultsMapper, times(1)).map(same(albumList))
+                    verify(uiAlbumSearchResultsMapper, times(1)).map(same(albumList), same(albumList))
+                    verify(favouriteAlbumsFlowUseCase, times(1)).invoke(Unit)
                     verifyNoMoreInteractions()
                     cancelAndIgnoreRemainingEvents()
                 }
@@ -99,7 +106,8 @@ class SearchAlbumInteractorImplTest : InteractorTest() {
             val uiList = UIList()
             val testException = TestException()
             whenever(searchAlbumsUseCase(searchQuery)).thenReturn(Result.Error(testException))
-            whenever(uiAlbumSearchResultsMapper.map(albumList)).thenReturn(uiList)
+            whenever(favouriteAlbumsFlowUseCase(Unit)).thenReturn(flowOf(Result.Success(albumList)))
+            whenever(uiAlbumSearchResultsMapper.map(any(), any())).thenReturn(uiList)
 
             launchInTestScope {
                 println("Creating Interactor")
@@ -107,7 +115,7 @@ class SearchAlbumInteractorImplTest : InteractorTest() {
                 println("Interactor Created")
 
                 //When
-                interactor.albumResults.test {
+                interactor.searchAlbumResults.test {
                     interactor.search(searchQuery)
 
                     val result = awaitItem()
@@ -116,7 +124,7 @@ class SearchAlbumInteractorImplTest : InteractorTest() {
                     assertTrue(result is UIResult.Success)
                     assertTrue(result.data.items.isEmpty())
                     verify(searchAlbumsUseCase, times(1)).invoke(same(searchQuery))
-                    verify(uiAlbumSearchResultsMapper, times(1)).map(same(albumList))
+                    verify(favouriteAlbumsFlowUseCase, times(1)).invoke(Unit)
                     verifyNoMoreInteractions()
                     cancelAndIgnoreRemainingEvents()
                 }
@@ -131,7 +139,8 @@ class SearchAlbumInteractorImplTest : InteractorTest() {
             val albumList = listOf(album)
             val testException = TestException()
             whenever(searchAlbumsUseCase(searchQuery)).thenReturn(Result.Success(albumList))
-            whenever(uiAlbumSearchResultsMapper.map(albumList)).thenThrow(testException)
+            whenever(favouriteAlbumsFlowUseCase(Unit)).thenReturn(flowOf(Result.Success(albumList)))
+            whenever(uiAlbumSearchResultsMapper.map(any(), any())).thenThrow(testException)
 
             launchInTestScope {
                 println("Creating Interactor")
@@ -139,7 +148,7 @@ class SearchAlbumInteractorImplTest : InteractorTest() {
                 println("Interactor Created")
 
                 //When
-                interactor.albumResults.test {
+                interactor.searchAlbumResults.test {
                     interactor.search(searchQuery)
 
                     val result = awaitItem()
@@ -147,7 +156,8 @@ class SearchAlbumInteractorImplTest : InteractorTest() {
                     //Then
                     assertTrue(result is UIResult.Error)
                     verify(searchAlbumsUseCase, times(1)).invoke(same(searchQuery))
-                    verify(uiAlbumSearchResultsMapper, times(1)).map(same(albumList))
+                    verify(uiAlbumSearchResultsMapper, times(1)).map(same(albumList), same(albumList))
+                    verify(favouriteAlbumsFlowUseCase, times(1)).invoke(Unit)
                     verifyNoMoreInteractions()
                     cancelAndIgnoreRemainingEvents()
                 }

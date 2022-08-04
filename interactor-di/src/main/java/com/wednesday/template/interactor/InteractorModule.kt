@@ -43,5 +43,7 @@ val interactorModule = module {
 
     single<UIAlbumSearchResultsMapper> { UIAlbumSearchResultsMapperImpl(get()) }
 
-    factory<SearchAlbumInteractor> { SearchAlbumInteractorImpl(get(), get(), get()) }
+    factory<SavedAlbumsInteractor> { SavedAlbumsInteractorImpl(get(), get(), get(), get(), get()) }
+
+    factory<SearchAlbumInteractor> { SearchAlbumInteractorImpl(get(), get(), get(), get()) }
 }

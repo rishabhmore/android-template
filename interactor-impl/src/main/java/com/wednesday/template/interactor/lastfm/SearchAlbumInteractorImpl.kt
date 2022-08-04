@@ -2,6 +2,7 @@ package com.wednesday.template.interactor.lastfm
 
 import com.wednesday.template.domain.base.Result
 import com.wednesday.template.domain.lastfm.Album
+import com.wednesday.template.domain.lastfm.GetFavouriteAlbumsFlowUseCase
 import com.wednesday.template.domain.lastfm.SearchAlbumsUseCase
 import com.wednesday.template.interactor.base.CoroutineContextController
 import com.wednesday.template.presentation.base.UIList
@@ -12,27 +13,29 @@ import timber.log.Timber
 
 class SearchAlbumInteractorImpl(
     private val searchAlbumsUseCase: SearchAlbumsUseCase,
+    favouriteAlbumsFlowUseCase: GetFavouriteAlbumsFlowUseCase,
     private val uiAlbumSearchResultsMapper: UIAlbumSearchResultsMapper,
     private val coroutineContextController: CoroutineContextController
 ) : SearchAlbumInteractor {
 
-    private val searchResultsFlow: Channel<Result<List<Album>>> = Channel()
+    private val searchResultStateFlow = Channel<List<Album>>()
 
-    override val albumResults: Flow<UIResult<UIList>> = searchResultsFlow
-        .receiveAsFlow().map { albumResults ->
-            when (albumResults) {
-                is Result.Success -> {
+    override val searchAlbumResults: Flow<UIResult<UIList>> = favouriteAlbumsFlowUseCase(Unit)
+        .combine(searchResultStateFlow.receiveAsFlow()) { favouriteAlbums, searchAlbumResults ->
+            when {
+                searchAlbumResults.isEmpty() -> {
+                    UIResult.Success(UIList())
+                }
+                favouriteAlbums is Result.Success -> {
                     UIResult.Success(
-                        uiAlbumSearchResultsMapper.map(albumResults.data)
+                        uiAlbumSearchResultsMapper.map(favouriteAlbums.data, searchAlbumResults)
                     )
                 }
-                is Result.Error -> {
-                    Timber.e(albumResults.exception)
-                    UIResult.Error(albumResults.exception)
+                favouriteAlbums is Result.Error -> {
+                    Timber.e(favouriteAlbums.exception)
+                    UIResult.Error(favouriteAlbums.exception)
                 }
-                else -> {
-                    error("Something went wrong")
-                }
+                else -> error("Something went wrong")
             }
         }
         .flowOn(coroutineContextController.dispatcherDefault)
@@ -42,8 +45,11 @@ class SearchAlbumInteractorImpl(
 
     override suspend fun search(query: String) : Unit = coroutineContextController.switchToDefault {
         Timber.tag(TAG).d("search: album = $query")
-        val results = searchAlbumsUseCase(query)
-        searchResultsFlow.send(results)
+        val list = when(val results = searchAlbumsUseCase(query)){
+            is Result.Error -> emptyList()
+            is Result.Success -> results.data
+        }
+        searchResultStateFlow.send(list)
     }
 
     companion object {

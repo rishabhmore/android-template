@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 3,
-    "identityHash": "4bac696aac22eb5ad36dda2b807c27b0",
+    "identityHash": "60d6521879712f3de657f83b1b70a808",
     "entities": [
       {
         "tableName": "favorite_locations",
@@ -221,7 +221,7 @@
       },
       {
         "tableName": "saved_albums",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `artist` TEXT NOT NULL, `name` TEXT NOT NULL, `smallImage` TEXT, `mediumImage` TEXT, `xlImage` TEXT, `url` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `artist` TEXT NOT NULL, `name` TEXT NOT NULL, `smallImage` TEXT, `mediumImage` TEXT, `xlImage` TEXT, `url` TEXT NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -270,7 +270,7 @@
           "columnNames": [
             "id"
           ],
-          "autoGenerate": false
+          "autoGenerate": true
         },
         "indices": [],
         "foreignKeys": []
@@ -279,7 +279,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '4bac696aac22eb5ad36dda2b807c27b0')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '60d6521879712f3de657f83b1b70a808')"
     ]
   }
 }
