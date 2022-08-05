@@ -5,7 +5,7 @@ name: CI
 # The "on" event block. Describes on which events on your repository should this workflow
 # be triggered. It could be on push, on pull request, on issues, etc.
 on:
-  # our CI work will be executed for every pull request that is created for our repo
+  # our CI workflow will be executed for every pull request that is created for our repo
   # Additionally, you can also specify a "branches" and pass an array of branches
   # if you specifically wish to execute this workflow on pull request for specific branches
   pull_request:
