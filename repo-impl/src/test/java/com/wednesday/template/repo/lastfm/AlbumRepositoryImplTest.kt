@@ -52,7 +52,6 @@ class AlbumRepositoryImplTest {
         runTest {
             // Given
             val searchTerm = "magnatron"
-            val remoteAlbums: List<RemoteAlbum> = listOf(remoteAlbum)
             val domainAlbums: List<Album> = listOf(album)
             val remoteAlbumsResponse = remoteAlbumResults
             whenever(lastFMRemoteService.searchAlbums(album = searchTerm))

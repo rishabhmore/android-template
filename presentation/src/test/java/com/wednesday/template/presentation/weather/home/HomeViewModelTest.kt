@@ -7,6 +7,7 @@ import com.wednesday.template.presentation.base.UIList
 import com.wednesday.template.presentation.base.UIResult
 import com.wednesday.template.presentation.base.UIText
 import com.wednesday.template.presentation.base.UIToolbar
+import com.wednesday.template.presentation.lastfm.search.AlbumSearchScreen
 import com.wednesday.template.presentation.weather.home.models.city
 import com.wednesday.template.presentation.weather.search.SearchScreen
 import com.wednesday.template.resources.R
@@ -101,7 +102,7 @@ class HomeViewModelTest : BaseViewModelTest() {
         viewModel.onIntent(HomeScreenIntent.Search)
 
         // Then
-        verify(navigator, times(1)).navigateTo(SearchScreen)
+        verify(navigator, times(1)).navigateTo(AlbumSearchScreen)
     }
 
     @Test
