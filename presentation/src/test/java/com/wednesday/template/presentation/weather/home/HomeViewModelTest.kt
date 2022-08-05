@@ -9,7 +9,6 @@ import com.wednesday.template.presentation.base.UIText
 import com.wednesday.template.presentation.base.UIToolbar
 import com.wednesday.template.presentation.lastfm.search.AlbumSearchScreen
 import com.wednesday.template.presentation.weather.home.models.city
-import com.wednesday.template.presentation.weather.search.SearchScreen
 import com.wednesday.template.resources.R
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf

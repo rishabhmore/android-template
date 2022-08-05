@@ -4,9 +4,7 @@ import app.cash.turbine.test
 import com.wednesday.template.domain.lastfm.Album
 import com.wednesday.template.repo.lastfm.models.album
 import com.wednesday.template.repo.lastfm.models.localAlbum
-import com.wednesday.template.repo.lastfm.models.remoteAlbum
 import com.wednesday.template.repo.lastfm.models.remoteAlbumResults
-import com.wednesday.template.service.lastfm.remote.RemoteAlbum
 import com.wednesday.template.service.weather.LastFMLocalService
 import com.wednesday.template.service.weather.LastFMRemoteService
 import kotlinx.coroutines.ExperimentalCoroutinesApi
