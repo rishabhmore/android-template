@@ -17,7 +17,6 @@ import kotlin.test.assertEquals
 @ExperimentalCoroutinesApi
 class AlbumSearchViewModelTest : BaseViewModelTest() {
 
-    //TODO Update the Test Case for AlbumSearchViewModel
     private lateinit var interactor: SearchAlbumInteractor
     private lateinit var navigator: BaseNavigator
     private lateinit var viewModel:AlbumSearchViewModel
