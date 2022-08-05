@@ -3,7 +3,11 @@ package com.wednesday.template.presentation.lastfm
 import com.wednesday.template.interactor.lastfm.SavedAlbumsInteractor
 import com.wednesday.template.interactor.lastfm.SearchAlbumInteractor
 import com.wednesday.template.navigation.BaseNavigator
-import com.wednesday.template.presentation.base.*
+import com.wednesday.template.presentation.base.BaseViewModelTest
+import com.wednesday.template.presentation.base.UIList
+import com.wednesday.template.presentation.base.UIResult
+import com.wednesday.template.presentation.base.UIText
+import com.wednesday.template.presentation.base.UIToolbar
 import com.wednesday.template.presentation.lastfm.models.album
 import com.wednesday.template.presentation.lastfm.search.AlbumSearchScreenState
 import com.wednesday.template.presentation.lastfm.search.AlbumSearchViewModel
@@ -12,7 +16,11 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
-import org.mockito.kotlin.*
+import org.mockito.kotlin.inOrder
+import org.mockito.kotlin.mock
+import org.mockito.kotlin.times
+import org.mockito.kotlin.verify
+import org.mockito.kotlin.whenever
 import kotlin.test.assertEquals
 
 @ExperimentalCoroutinesApi
