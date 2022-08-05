@@ -1,5 +1,6 @@
 package com.wednesday.template.presentation.lastfm
 
+import com.wednesday.template.interactor.lastfm.SavedAlbumsInteractor
 import com.wednesday.template.interactor.lastfm.SearchAlbumInteractor
 import com.wednesday.template.navigation.BaseNavigator
 import com.wednesday.template.presentation.base.*
@@ -17,15 +18,18 @@ import kotlin.test.assertEquals
 @ExperimentalCoroutinesApi
 class AlbumSearchViewModelTest : BaseViewModelTest() {
 
-    private lateinit var interactor: SearchAlbumInteractor
+    private lateinit var savedAlbumsInteractor: SavedAlbumsInteractor
+    private lateinit var searchAlbumInteractor: SearchAlbumInteractor
     private lateinit var navigator: BaseNavigator
-    private lateinit var viewModel:AlbumSearchViewModel
+    private lateinit var viewModel: AlbumSearchViewModel
 
     override fun before() {
-        interactor = mock()
+        savedAlbumsInteractor = mock()
+        searchAlbumInteractor = mock()
         navigator = mock()
         viewModel = AlbumSearchViewModel(
-            searchAlbumInteractor = interactor
+            savedAlbumsInteractor = savedAlbumsInteractor,
+            searchAlbumInteractor = searchAlbumInteractor
         )
     }
 
@@ -48,7 +52,7 @@ class AlbumSearchViewModelTest : BaseViewModelTest() {
         runTest {
             // Given
             val uiList = UIResult.Success(UIList(album))
-            whenever(interactor.albumResults)
+            whenever(searchAlbumInteractor.searchAlbumResults)
                 .thenReturn(flowOf(uiList))
 
             // When
@@ -66,7 +70,7 @@ class AlbumSearchViewModelTest : BaseViewModelTest() {
                 verify().onChanged(initialState)
                 verifyNoMoreInteractions()
             }
-            verify(interactor, times(1)).albumResults
+            verify(searchAlbumInteractor, times(1)).searchAlbumResults
         }
 
     private fun getInitialState() = AlbumSearchScreenState(
