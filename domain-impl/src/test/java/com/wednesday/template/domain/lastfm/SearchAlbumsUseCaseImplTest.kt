@@ -26,15 +26,15 @@ class SearchAlbumsUseCaseImplTest {
     @Test
     fun `Given album searched by repo, When invoke called, Then Success is returned`() =
         runTest {
-            //Given
+            // Given
             val searchTerm = "magnatron"
             val albums = listOf(album)
             whenever(albumRepository.searchAlbums(searchTerm)).thenReturn(albums)
 
-            //When
+            // When
             val result = searchAlbumsUseCase(searchTerm)
 
-            //Then
+            // Then
             assertTrue(result is Result.Success)
             verify(albumRepository, times(1)).searchAlbums(same(searchTerm))
             verifyNoMoreInteractions(albumRepository)
@@ -43,15 +43,15 @@ class SearchAlbumsUseCaseImplTest {
     @Test
     fun `Given repo throws exception, When invoke called, Then Error is returned`() =
         runTest {
-            //Given
+            // Given
             val searchTerm = "magnatron"
             val testException = TestException()
             whenever(albumRepository.searchAlbums(searchTerm)).thenThrow(testException)
 
-            //When
+            // When
             val result = searchAlbumsUseCase(searchTerm)
 
-            //Then
+            // Then
             assertTrue(result is Result.Error)
             verify(albumRepository, times(1)).searchAlbums(same(searchTerm))
             verifyNoMoreInteractions(albumRepository)

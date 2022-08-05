@@ -21,8 +21,7 @@ class AlbumSearchViewModel(
     private val savedAlbumsInteractor: SavedAlbumsInteractor,
     private val searchAlbumInteractor: SearchAlbumInteractor
 ) : BaseViewModel<AlbumSearchScreen, AlbumSearchScreenState, BaseNavigator>(),
-    IntentHandler<AlbumSearchScreenIntent>
-{
+    IntentHandler<AlbumSearchScreenIntent> {
     /**
      * This state flow is like a search queue that is delayed by 500 ms
      * so that we can have real-time search without having to send request to api
@@ -59,15 +58,15 @@ class AlbumSearchViewModel(
             }
         }.launchIn(viewModelScope)
 
-        //initialize the search queue with a debounce of 500 ms
+        // initialize the search queue with a debounce of 500 ms
         albumSearchStringQueue
             .debounce(500)
-            //we will trim our search query from any spaces left by soft input keyboard's
+            // we will trim our search query from any spaces left by soft input keyboard's
             // auto suggestions, likeGoogle Keyboard does
             .map { it.trim() }
             .onEach {
 
-                //Initially we will not have anything to search,
+                // Initially we will not have anything to search,
                 // so our initial flow will always be an empty string
                 if (it.isBlank()) {
                     setState { copy(searchList = UIList()) }
@@ -86,17 +85,17 @@ class AlbumSearchViewModel(
         when (intent) {
             is AlbumSearchScreenIntent.SearchAlbums -> {
                 viewModelScope.launch {
-                    //Send our string query to the search queue
+                    // Send our string query to the search queue
                     albumSearchStringQueue.value = intent.query
                 }
             }
             is AlbumSearchScreenIntent.ToggleSavedAlbum -> {
                 viewModelScope.launch {
-                    if(intent.album.isSaved){
-                        //If already saved, then we will remove it
+                    if (intent.album.isSaved) {
+                        // If already saved, then we will remove it
                         savedAlbumsInteractor.removeAlbum(intent.album)
                     } else {
-                        //We add this album to our saved list
+                        // We add this album to our saved list
                         savedAlbumsInteractor.saveAlbum(intent.album)
                     }
                 }

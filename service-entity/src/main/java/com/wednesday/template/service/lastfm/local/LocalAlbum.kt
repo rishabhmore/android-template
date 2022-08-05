@@ -13,6 +13,6 @@ data class LocalAlbum(
     val name: String,
     val smallImage: String?,
     val mediumImage: String?,
-    val xlImage:String?,
+    val xlImage: String?,
     val url: String
 )

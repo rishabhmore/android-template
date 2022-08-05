@@ -38,7 +38,7 @@ val interactorModule = module {
 
     factory<SearchCityInteractor> { SearchCityInteractorImpl(get(), get(), get(), get()) }
 
-    //Last FM
+    // Last FM
     single<UIAlbumMapper> { UIAlbumMapperImpl() }
 
     single<UIAlbumSearchResultsMapper> { UIAlbumSearchResultsMapperImpl(get()) }

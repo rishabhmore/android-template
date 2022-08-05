@@ -26,14 +26,14 @@ class SaveFavouriteAlbumUseCaseImplTest {
     @Test
     fun `Given album added as fav by repo, When invoked, Then Success is returned`(): Unit =
         runTest {
-            //Given
+            // Given
             val album = album
             whenever(albumRepository.saveAlbumToFavourites(album)).thenReturn(Unit)
 
-            //When
+            // When
             val result = saveFavouriteAlbumUseCase(album)
 
-            //Then
+            // Then
             assertTrue(result is Result.Success)
             verify(albumRepository, times(1)).saveAlbumToFavourites(same(album))
             verifyNoMoreInteractions(albumRepository)
@@ -42,15 +42,15 @@ class SaveFavouriteAlbumUseCaseImplTest {
     @Test
     fun `Given repo throws exception, When invoked, Then Error is returned`(): Unit =
         runTest {
-            //Given
+            // Given
             val album = album
             val testException = TestException()
             whenever(albumRepository.saveAlbumToFavourites(album)).thenThrow(testException)
 
-            //When
+            // When
             val result = saveFavouriteAlbumUseCase(album)
 
-            //Then
+            // Then
             assertTrue(result is Result.Error)
             verify(albumRepository, times(1)).saveAlbumToFavourites(same(album))
             verifyNoMoreInteractions(albumRepository)

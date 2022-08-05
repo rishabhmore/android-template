@@ -45,7 +45,7 @@ class AlbumRepositoryImplTest {
     @Test
     fun `Given a search string, When searchAlbums is called, Then list of albums is returned`(): Unit =
         runTest {
-            //Given
+            // Given
             val searchTerm = "magnatron"
             val remoteAlbums: List<RemoteAlbum> = listOf(remoteAlbum)
             val domainAlbums: List<Album> = listOf(album)
@@ -55,10 +55,10 @@ class AlbumRepositoryImplTest {
             whenever(domainAlbumsMapper.mapRemoteAlbum(same(remoteAlbumsResponse.results?.matches?.album)))
                 .thenReturn(domainAlbums)
 
-            //When
+            // When
             val result = albumRepository.searchAlbums(searchTerm)
 
-            //Then
+            // Then
             assertEquals(expected = listOf(album), actual = result)
             verify(lastFMRemoteService, times(1)).searchAlbums(album = searchTerm)
             verify(domainAlbumsMapper, times(1))
@@ -69,7 +69,7 @@ class AlbumRepositoryImplTest {
     @Test
     fun `Given getFavouriteAlbumsFlow is called, Then it returns flow of albums`(): Unit =
         runTest {
-            //Given
+            // Given
             val localAlbums = listOf(localAlbum)
             val albums = listOf(album)
             whenever(lastFMLocalService.getFavouriteAlbumsFlow()).thenReturn(
@@ -79,11 +79,11 @@ class AlbumRepositoryImplTest {
             )
             whenever(domainAlbumsMapper.map(localAlbums)).thenReturn(albums)
 
-            //When
+            // When
             albumRepository.getFavouriteAlbumsFlow().test {
                 val firstAlbum = awaitItem()
 
-                //Then
+                // Then
                 assertEquals(expected = albums, actual = firstAlbum)
                 cancelAndIgnoreRemainingEvents()
             }
@@ -95,16 +95,16 @@ class AlbumRepositoryImplTest {
     @Test
     fun `Given getFavouriteAlbums is called, Then it returns list of albums`(): Unit =
         runTest {
-            //Given
+            // Given
             val localAlbums = listOf(localAlbum)
             val albums = listOf(album)
             whenever(lastFMLocalService.getFavouriteAlbums()).thenReturn(localAlbums)
             whenever(domainAlbumsMapper.map(localAlbums)).thenReturn(albums)
 
-            //When
+            // When
             val result = albumRepository.getFavouriteAlbums()
 
-            //Then
+            // Then
             assertEquals(expected = albums, actual = result)
             verify(lastFMLocalService, times(1)).getFavouriteAlbums()
             verify(domainAlbumsMapper, times(1)).map(localAlbums)
@@ -114,15 +114,15 @@ class AlbumRepositoryImplTest {
     @Test
     fun `Given saveAlbumToFavourites is called, Then it marks the album as favourite`(): Unit =
         runTest {
-            //Given
+            // Given
             val localAlbum = localAlbum
             val album = album
             whenever(localAlbumsMapper.map(album)).thenReturn(localAlbum)
 
-            //When
+            // When
             albumRepository.saveAlbumToFavourites(album)
 
-            //Then
+            // Then
             verify(lastFMLocalService, times(1)).saveAlbumToFavourites(same(localAlbum))
             verify(localAlbumsMapper, times(1)).map(same(album))
         }
@@ -130,15 +130,15 @@ class AlbumRepositoryImplTest {
     @Test
     fun `Given removeAlbumFromFavourites is called, Then it removes the album from favourites`(): Unit =
         runTest {
-            //Given
+            // Given
             val localAlbum = localAlbum
             val album = album
             whenever(localAlbumsMapper.map(album)).thenReturn(localAlbum)
 
-            //When
+            // When
             albumRepository.removeAlbumFromFavourites(album)
 
-            //Then
+            // Then
             verify(lastFMLocalService, times(1)).removeAlbumFromFavourites(same(localAlbum))
             verify(localAlbumsMapper, times(1)).map(same(album))
         }

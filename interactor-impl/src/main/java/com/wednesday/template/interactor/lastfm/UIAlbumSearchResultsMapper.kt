@@ -4,7 +4,7 @@ import com.wednesday.template.domain.lastfm.Album
 import com.wednesday.template.interactor.base.Mapper2
 import com.wednesday.template.presentation.base.UIList
 
-interface UIAlbumSearchResultsMapper : Mapper2<List<Album>, List<Album>,UIList>
+interface UIAlbumSearchResultsMapper : Mapper2<List<Album>, List<Album>, UIList>
 
 class UIAlbumSearchResultsMapperImpl(
     private val uiAlbumMapper: UIAlbumMapper

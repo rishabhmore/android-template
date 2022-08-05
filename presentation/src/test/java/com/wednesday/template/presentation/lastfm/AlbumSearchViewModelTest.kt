@@ -37,12 +37,12 @@ class AlbumSearchViewModelTest : BaseViewModelTest() {
 
     @Test
     fun `Given _, When getDefaultScreenState, Then it returns correct state`() {
-        //Given
+        // Given
 
-        //When
+        // When
         val screenState = viewModel.getDefaultScreenState()
 
-        //Then
+        // Then
         val expected = getInitialState()
         assertEquals(expected, screenState)
     }

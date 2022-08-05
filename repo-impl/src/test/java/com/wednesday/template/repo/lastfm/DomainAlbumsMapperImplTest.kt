@@ -18,25 +18,25 @@ class DomainAlbumsMapperImplTest {
 
     @Test
     fun `Given LocalAlbum, When map is called, Then Album is returned with correct mapping`() {
-        //Given
+        // Given
         val localData = localAlbum
 
-        //When
+        // When
         val result = domainAlbumsMapper.map(localData)
 
-        //Then
+        // Then
         assertEquals(expected = album, actual = result)
     }
 
     @Test
     fun `Given RemoteAlbum, When mapRemoteAlbum is called, Then Album is returned with correct mapping`() {
-        //Given
+        // Given
         val remoteData = remoteAlbum
 
-        //When
+        // When
         val result = domainAlbumsMapper.mapRemoteAlbum(remoteData)
 
-        //Then
+        // Then
         assertEquals(expected = album, actual = result)
     }
 }

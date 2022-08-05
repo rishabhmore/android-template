@@ -24,7 +24,7 @@ val repoModule = module {
         WeatherRepositoryImpl(get(), get(), get(), get(), get(), get(), get())
     }
 
-    //Last FM
+    // Last FM
     single<DomainAlbumsMapper> { DomainAlbumsMapperImpl() }
 
     single<LocalAlbumsMapper> { LocalAlbumsMapperImpl() }

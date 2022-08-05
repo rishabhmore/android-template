@@ -11,7 +11,7 @@ class AlbumRepositoryImpl(
     private val lastFMRemoteService: LastFMRemoteService,
     private val domainAlbumsMapper: DomainAlbumsMapper,
     private val localAlbumsMapper: LocalAlbumsMapper
-): AlbumRepository {
+) : AlbumRepository {
 
     override suspend fun searchAlbums(searchQuery: String): List<Album> {
         val resp = lastFMRemoteService.searchAlbums(album = searchQuery)

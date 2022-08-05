@@ -28,7 +28,7 @@ val domainModule = module {
 
     single<FetchFavouriteCitiesWeatherUseCase> { FetchFavouriteCitiesWeatherUseCaseImpl(get()) }
 
-    //Last FM
+    // Last FM
     single<GetFavouriteAlbumsFlowUseCase> { GetFavouriteAlbumsFlowUseCaseImpl(get()) }
 
     single<GetFavouriteAlbumsUseCase> { GetFavouriteAlbumsUseCaseImpl(get()) }

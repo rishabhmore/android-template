@@ -23,8 +23,7 @@ class AlbumSearchFragment : MainFragment<
     AlbumSearchScreen,
     AlbumSearchScreenState,
     BaseNavigator,
-    AlbumSearchViewModel>()
-{
+    AlbumSearchViewModel>() {
 
     override val toolbarComponent: ToolbarComponent = ToolbarComponent(this, onBackClicked = {
         viewModel.onIntent(AlbumSearchScreenIntent.Back)
@@ -76,7 +75,7 @@ class AlbumSearchFragment : MainFragment<
         }
 
         searchAlbumsEditText.setOnEditorActionListener { _, actionId, _ ->
-            if(actionId == EditorInfo.IME_ACTION_DONE) {
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
                 onEffect(HideKeyboardEffect)
                 Timber.d("User Completed Search")
             }

@@ -43,9 +43,9 @@ class SearchAlbumInteractorImpl(
             emit(UIResult.Error(e as Exception))
         }
 
-    override suspend fun search(query: String) : Unit = coroutineContextController.switchToDefault {
+    override suspend fun search(query: String): Unit = coroutineContextController.switchToDefault {
         Timber.tag(TAG).d("search: album = $query")
-        val list = when(val results = searchAlbumsUseCase(query)){
+        val list = when (val results = searchAlbumsUseCase(query)) {
             is Result.Error -> emptyList()
             is Result.Success -> results.data
         }

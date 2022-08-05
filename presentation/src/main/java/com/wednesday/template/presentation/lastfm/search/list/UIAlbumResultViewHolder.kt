@@ -13,7 +13,7 @@ import kotlinx.coroutines.channels.Channel
 
 class UIAlbumResultViewHolder(
     private val binding: ItemAlbumSearchBinding
-): BaseViewHolder<UIAlbum>(binding) {
+) : BaseViewHolder<UIAlbum>(binding) {
 
     override fun onSetupIntents(intentChannel: Channel<Intent>) = with(binding) {
         savedAlbumsToggle.setOnClickListener {
@@ -23,14 +23,14 @@ class UIAlbumResultViewHolder(
     }
 
     override fun onBindInternal(): Unit = binding.run {
-        with(item){
+        with(item) {
             albumName.text = name
             artistName.text = artist
             albumPreview.load(mediumImage) {
                 size(Size.ORIGINAL)
             }
 
-            compareAndSet({ isSaved }){
+            compareAndSet({ isSaved }) {
                 val drawable = ContextCompat.getDrawable(
                     root.context,
                     if (it) R.drawable.ic_favorite else R.drawable.ic_favorite_border
