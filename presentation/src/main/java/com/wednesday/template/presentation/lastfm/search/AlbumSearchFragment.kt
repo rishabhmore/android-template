@@ -37,6 +37,7 @@ class AlbumSearchFragment : MainFragment<
         FragmentAlbumSearchBinding::inflate
 
     private val listComponent by component {
+        // TODO Rename the ID for the recyclerview properly
         ListComponent(viewModel, R.id.search_albums_recycler_view) {
             addRenderer(UIAlbumResultListRenderer())
         }
