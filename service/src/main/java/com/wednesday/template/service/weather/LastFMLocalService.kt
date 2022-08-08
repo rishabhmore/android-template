@@ -5,9 +5,9 @@ import kotlinx.coroutines.flow.Flow
 
 interface LastFMLocalService {
 
-    fun getFavouriteAlbumsFlow() : Flow<List<LocalAlbum>>
+    fun getFavouriteAlbumsFlow(): Flow<List<LocalAlbum>>
 
-    suspend fun getFavouriteAlbums() : List<LocalAlbum>
+    suspend fun getFavouriteAlbums(): List<LocalAlbum>
 
     suspend fun saveAlbumToFavourites(album: LocalAlbum)
 

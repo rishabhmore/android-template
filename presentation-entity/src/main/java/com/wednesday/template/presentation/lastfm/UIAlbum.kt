@@ -10,7 +10,7 @@ data class UIAlbum(
     val name: String,
     val smallImage: String?,
     val mediumImage: String?,
-    val xlImage:String?,
+    val xlImage: String?,
     val url: String,
     val isSaved: Boolean = false
 ) : UIListItemBase(id = "Album $name")

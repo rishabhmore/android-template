@@ -48,7 +48,7 @@ fun getOpenWeatherRetrofit(context: Context, vararg interceptors: Interceptor): 
 
     val apiBaseUrl = "https://api.openweathermap.org/"
     val contentType = "application/json".toMediaType()
-    //FIXME Check if varargs parameters is passed correctly or not by adding this *
+    // FIXME Check if varargs parameters is passed correctly or not by adding this *
     val client = getBaseClient(context, *interceptors)
     val json = Json {
         ignoreUnknownKeys = true

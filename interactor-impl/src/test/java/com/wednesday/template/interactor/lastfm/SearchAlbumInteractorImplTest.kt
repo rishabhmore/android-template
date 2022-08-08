@@ -16,7 +16,13 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
-import org.mockito.kotlin.*
+import org.mockito.kotlin.any
+import org.mockito.kotlin.mock
+import org.mockito.kotlin.same
+import org.mockito.kotlin.times
+import org.mockito.kotlin.verify
+import org.mockito.kotlin.verifyNoMoreInteractions
+import org.mockito.kotlin.whenever
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 import kotlin.time.ExperimentalTime
@@ -66,7 +72,7 @@ class SearchAlbumInteractorImplTest : InteractorTest() {
     @Test
     fun `Given no error occurs, When search called, Then search album results flow emits UIList of results`(): Unit =
         runTest {
-            //Given
+            // Given
             val searchQuery = "Magnatron"
             val albumList = listOf(album)
             val uiList = UIList(uiAlbum)
@@ -79,13 +85,13 @@ class SearchAlbumInteractorImplTest : InteractorTest() {
                 createInteractor()
                 println("Interactor Created")
 
-                //When
+                // When
                 interactor.searchAlbumResults.test {
                     interactor.search(searchQuery)
 
                     val result = awaitItem()
 
-                    //Then
+                    // Then
                     assertTrue(result is UIResult.Success)
                     assertEquals(actual = result.data, expected = uiList)
                     verify(searchAlbumsUseCase, times(1)).invoke(same(searchQuery))
@@ -100,7 +106,7 @@ class SearchAlbumInteractorImplTest : InteractorTest() {
     @Test
     fun `Given search use case returns error, When search called, Then album results flow emits empty list`(): Unit =
         runTest {
-            //Given
+            // Given
             val searchQuery = "Magnatron"
             val albumList = listOf(album)
             val uiList = UIList()
@@ -114,13 +120,13 @@ class SearchAlbumInteractorImplTest : InteractorTest() {
                 createInteractor()
                 println("Interactor Created")
 
-                //When
+                // When
                 interactor.searchAlbumResults.test {
                     interactor.search(searchQuery)
 
                     val result = awaitItem()
 
-                    //Then
+                    // Then
                     assertTrue(result is UIResult.Success)
                     assertTrue(result.data.items.isEmpty())
                     verify(searchAlbumsUseCase, times(1)).invoke(same(searchQuery))
@@ -134,7 +140,7 @@ class SearchAlbumInteractorImplTest : InteractorTest() {
     @Test
     fun `Given mapper throws occur, When search called, Then album results flow emits empty list`(): Unit =
         runTest {
-            //Given
+            // Given
             val searchQuery = "Magnatron"
             val albumList = listOf(album)
             val testException = TestException()
@@ -147,13 +153,13 @@ class SearchAlbumInteractorImplTest : InteractorTest() {
                 createInteractor()
                 println("Interactor Created")
 
-                //When
+                // When
                 interactor.searchAlbumResults.test {
                     interactor.search(searchQuery)
 
                     val result = awaitItem()
 
-                    //Then
+                    // Then
                     assertTrue(result is UIResult.Error)
                     verify(searchAlbumsUseCase, times(1)).invoke(same(searchQuery))
                     verify(uiAlbumSearchResultsMapper, times(1)).map(same(albumList), same(albumList))

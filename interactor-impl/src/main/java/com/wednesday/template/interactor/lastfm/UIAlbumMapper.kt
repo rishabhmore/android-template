@@ -17,7 +17,7 @@ interface UIAlbumMapper : Mapper2<Album, Boolean, UIAlbum> {
 class UIAlbumMapperImpl : UIAlbumMapper {
 
     override fun map(from1: Album, from2: Boolean): UIAlbum {
-        return with(from1){
+        return with(from1) {
             UIAlbum(
                 albumArtist = "$name - $artist",
                 artist = artist,
@@ -32,7 +32,7 @@ class UIAlbumMapperImpl : UIAlbumMapper {
     }
 
     override fun mapSavedAlbum(from: Album): UIAlbum {
-        return with(from){
+        return with(from) {
             UIAlbum(
                 albumArtist = "$name - $artist",
                 artist = artist,

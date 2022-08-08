@@ -3,15 +3,17 @@ package com.wednesday.template.presentation.lastfm.search
 import android.view.inputmethod.EditorInfo
 import androidx.core.widget.addTextChangedListener
 import com.wednesday.template.navigation.BaseNavigator
+import com.wednesday.template.presentation.R
 import com.wednesday.template.presentation.base.common.HideKeyboardComponent
 import com.wednesday.template.presentation.base.effect.Effect
 import com.wednesday.template.presentation.base.effect.HideKeyboardEffect
 import com.wednesday.template.presentation.base.effect.ShowSnackbarEffect
 import com.wednesday.template.presentation.base.fragment.BindingProvider
 import com.wednesday.template.presentation.base.fragment.MainFragment
+import com.wednesday.template.presentation.base.list.ListComponent
 import com.wednesday.template.presentation.base.snackbar.SnackbarComponent
 import com.wednesday.template.presentation.base.toolbar.ToolbarComponent
-import com.wednesday.template.presentation.lastfm.search.list.AlbumResultsAdapter
+import com.wednesday.template.presentation.lastfm.search.list.UIAlbumResultListRenderer
 import com.wednesday.template.resources.databinding.FragmentAlbumSearchBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
@@ -21,9 +23,7 @@ class AlbumSearchFragment : MainFragment<
     AlbumSearchScreen,
     AlbumSearchScreenState,
     BaseNavigator,
-    AlbumSearchViewModel>()
-{
-    private lateinit var adapter: AlbumResultsAdapter
+    AlbumSearchViewModel>() {
 
     override val toolbarComponent: ToolbarComponent = ToolbarComponent(this, onBackClicked = {
         viewModel.onIntent(AlbumSearchScreenIntent.Back)
@@ -36,6 +36,12 @@ class AlbumSearchFragment : MainFragment<
     override val bindingProvider: BindingProvider<FragmentAlbumSearchBinding> =
         FragmentAlbumSearchBinding::inflate
 
+    private val listComponent by component {
+        ListComponent(viewModel, R.id.search_albums_recycler_view) {
+            addRenderer(UIAlbumResultListRenderer())
+        }
+    }
+
     private val snackbarComponent by component {
         SnackbarComponent(this)
     }
@@ -46,14 +52,12 @@ class AlbumSearchFragment : MainFragment<
 
     override fun onViewCreated(binding: FragmentAlbumSearchBinding) {
         super.onViewCreated(binding)
-        setupRecyclerView(binding)
         addTextListener(binding)
     }
 
     override fun onState(screenState: AlbumSearchScreenState) {
         super.onState(screenState)
-        //We will fill our recyclerview with album results when the state gets updated
-        adapter.differ.submitList(screenState.searchList.items)
+        listComponent.setData(screenState.searchList)
     }
 
     override fun onEffect(effect: Effect) {
@@ -64,11 +68,6 @@ class AlbumSearchFragment : MainFragment<
         }
     }
 
-    private fun setupRecyclerView(binding: FragmentAlbumSearchBinding) {
-        adapter = AlbumResultsAdapter()
-        binding.searchAlbumsRecyclerView.adapter = adapter
-    }
-
     private fun addTextListener(binding: FragmentAlbumSearchBinding) = with(binding) {
 
         searchAlbumsEditText.addTextChangedListener {
@@ -76,7 +75,7 @@ class AlbumSearchFragment : MainFragment<
         }
 
         searchAlbumsEditText.setOnEditorActionListener { _, actionId, _ ->
-            if(actionId == EditorInfo.IME_ACTION_DONE) {
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
                 onEffect(HideKeyboardEffect)
                 Timber.d("User Completed Search")
             }

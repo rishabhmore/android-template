@@ -14,5 +14,4 @@ interface AlbumRepository {
     suspend fun saveAlbumToFavourites(album: Album)
 
     suspend fun removeAlbumFromFavourites(album: Album)
-
 }

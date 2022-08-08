@@ -7,7 +7,11 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
-import org.mockito.kotlin.*
+import org.mockito.kotlin.mock
+import org.mockito.kotlin.times
+import org.mockito.kotlin.verify
+import org.mockito.kotlin.verifyNoMoreInteractions
+import org.mockito.kotlin.whenever
 import kotlin.test.assertTrue
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -25,12 +29,12 @@ class GetFavouriteAlbumsUseCaseImplTest {
     @Test
     fun `Given fetch is successful, When invoked, Then Success is returned`(): Unit =
         runTest {
-            //Given
+            // Given
 
-            //When
+            // When
             val result = getFavouriteAlbumsUseCase(Unit)
 
-            //Then
+            // Then
             assertTrue(result is Result.Success)
             verify(albumRepository, times(1)).getFavouriteAlbums()
             verifyNoMoreInteractions(albumRepository)
@@ -39,14 +43,14 @@ class GetFavouriteAlbumsUseCaseImplTest {
     @Test
     fun `Given fetch is not successful, When invoked, Then Error is returned`(): Unit =
         runTest {
-            //Given
+            // Given
             val testException = TestException()
             whenever(albumRepository.getFavouriteAlbums()).thenThrow(testException)
 
-            //When
+            // When
             val result = getFavouriteAlbumsUseCase(Unit)
 
-            //Then
+            // Then
             assertTrue(result is Result.Error)
             verify(albumRepository, times(1)).getFavouriteAlbums()
             verifyNoMoreInteractions(albumRepository)

@@ -1,8 +1,13 @@
 package com.wednesday.template.presentation.lastfm
 
+import com.wednesday.template.interactor.lastfm.SavedAlbumsInteractor
 import com.wednesday.template.interactor.lastfm.SearchAlbumInteractor
 import com.wednesday.template.navigation.BaseNavigator
-import com.wednesday.template.presentation.base.*
+import com.wednesday.template.presentation.base.BaseViewModelTest
+import com.wednesday.template.presentation.base.UIList
+import com.wednesday.template.presentation.base.UIResult
+import com.wednesday.template.presentation.base.UIText
+import com.wednesday.template.presentation.base.UIToolbar
 import com.wednesday.template.presentation.lastfm.models.album
 import com.wednesday.template.presentation.lastfm.search.AlbumSearchScreenState
 import com.wednesday.template.presentation.lastfm.search.AlbumSearchViewModel
@@ -11,21 +16,28 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
-import org.mockito.kotlin.*
+import org.mockito.kotlin.inOrder
+import org.mockito.kotlin.mock
+import org.mockito.kotlin.times
+import org.mockito.kotlin.verify
+import org.mockito.kotlin.whenever
 import kotlin.test.assertEquals
 
 @ExperimentalCoroutinesApi
 class AlbumSearchViewModelTest : BaseViewModelTest() {
 
-    private lateinit var interactor: SearchAlbumInteractor
+    private lateinit var savedAlbumsInteractor: SavedAlbumsInteractor
+    private lateinit var searchAlbumInteractor: SearchAlbumInteractor
     private lateinit var navigator: BaseNavigator
-    private lateinit var viewModel:AlbumSearchViewModel
+    private lateinit var viewModel: AlbumSearchViewModel
 
     override fun before() {
-        interactor = mock()
+        savedAlbumsInteractor = mock()
+        searchAlbumInteractor = mock()
         navigator = mock()
         viewModel = AlbumSearchViewModel(
-            searchAlbumInteractor = interactor
+            savedAlbumsInteractor = savedAlbumsInteractor,
+            searchAlbumInteractor = searchAlbumInteractor
         )
     }
 
@@ -33,12 +45,12 @@ class AlbumSearchViewModelTest : BaseViewModelTest() {
 
     @Test
     fun `Given _, When getDefaultScreenState, Then it returns correct state`() {
-        //Given
+        // Given
 
-        //When
+        // When
         val screenState = viewModel.getDefaultScreenState()
 
-        //Then
+        // Then
         val expected = getInitialState()
         assertEquals(expected, screenState)
     }
@@ -48,7 +60,7 @@ class AlbumSearchViewModelTest : BaseViewModelTest() {
         runTest {
             // Given
             val uiList = UIResult.Success(UIList(album))
-            whenever(interactor.albumResults)
+            whenever(searchAlbumInteractor.searchAlbumResults)
                 .thenReturn(flowOf(uiList))
 
             // When
@@ -66,7 +78,7 @@ class AlbumSearchViewModelTest : BaseViewModelTest() {
                 verify().onChanged(initialState)
                 verifyNoMoreInteractions()
             }
-            verify(interactor, times(1)).albumResults
+            verify(searchAlbumInteractor, times(1)).searchAlbumResults
         }
 
     private fun getInitialState() = AlbumSearchScreenState(

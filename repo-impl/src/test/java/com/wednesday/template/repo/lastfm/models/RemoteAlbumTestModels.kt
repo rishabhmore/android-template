@@ -1,6 +1,10 @@
 package com.wednesday.template.repo.lastfm.models
 
-import com.wednesday.template.service.lastfm.remote.*
+import com.wednesday.template.service.lastfm.remote.RemoteAlbum
+import com.wednesday.template.service.lastfm.remote.RemoteAlbumResults
+import com.wednesday.template.service.lastfm.remote.RemoteImageData
+import com.wednesday.template.service.lastfm.remote.RemoteMatches
+import com.wednesday.template.service.lastfm.remote.RemoteResults
 
 val remoteAlbum = RemoteAlbum(
     artist = "Various Artists",

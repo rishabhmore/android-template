@@ -29,15 +29,15 @@ class GetFavouriteAlbumsFlowUseCaseImplTest {
     @Test
     fun `Given repository returns flow, When invoked, Then flow of list of albums is returned`(): Unit =
         runTest {
-            //Given
+            // Given
             val albums = listOf(album)
             whenever(albumRepository.getFavouriteAlbumsFlow()).thenReturn(flowOf(albums))
 
-            //When
+            // When
             getFavouriteAlbumsFlowUseCase(Unit).test {
                 val result = awaitItem()
 
-                //Then
+                // Then
                 assertTrue(result is Result.Success)
                 assertEquals(expected = albums, actual = result.data)
                 cancelAndIgnoreRemainingEvents()

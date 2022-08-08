@@ -1,13 +1,28 @@
+# Name of the Workflow. This name will displayed on the "Actions" tab of your repository
+# and it completely optional
 name: CD
+
+# The "on" event block. Describes on which events on your repository should this workflow
+# be triggered. It could be on push, on pull request, on issues, etc.
 on:
+  # our CD workflow will be executed for every push to the main branch
+  # Additionally, you can also specify a "branches" and pass an array of branches
+  # if you specifically wish to execute this workflow on pull request for specific branches
   push:
     branches:
       - main
 
+# This block groups all the jobs that can be executed in a workflow.
+# A single workflow can have many jobs that can be executed either sequentially or in parallel
 jobs:
+  # This is the name/job_id of our job! We're building release apk for our main branch
   build:
+    # tells which OS our VM should have, on which our runners will execute
+    # creates a fresh instance of that VM for each individual job
     runs-on: ubuntu-latest
+    # A label name for our job. Shows up in Runner Actions when job is executed
     name: Build and Deploy the apk
+    # This block groups all the steps that should run in a given job
     steps:
       - uses: actions/checkout@v2
         with:

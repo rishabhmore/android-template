@@ -18,7 +18,7 @@ class SavedAlbumsInteractorImpl(
     private val removeFavouriteAlbumUseCase: RemoveFavouriteAlbumUseCase,
     private val uiAlbumMapper: UIAlbumMapper,
     private val coroutineContextController: CoroutineContextController
-): BaseInteractor(), SavedAlbumsInteractor {
+) : BaseInteractor(), SavedAlbumsInteractor {
 
     override fun getSavedAlbumsUIList(): Flow<UIResult<UIList>> {
         return getFavouriteAlbumsFlowUseCase(Unit)

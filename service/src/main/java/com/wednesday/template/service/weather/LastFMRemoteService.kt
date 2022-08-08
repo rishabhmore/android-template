@@ -13,5 +13,5 @@ interface LastFMRemoteService {
         @Query("album") album: String,
         @Query("api_key") apiKey: String = BuildConfig.LAST_FM_API_KEY,
         @Query("format") format: String = "json"
-    ) : RemoteAlbumResults
+    ): RemoteAlbumResults
 }

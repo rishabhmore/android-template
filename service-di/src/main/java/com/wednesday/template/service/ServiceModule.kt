@@ -34,7 +34,7 @@ val serviceModule = module {
 
     single<OpenWeatherLocalService> { getWeatherLocalService(get()) }
 
-    //Last FM
+    // Last FM
     single { getLastFMRemoteService(get(qualifier = named("LastFM"))) }
 
     single<LastFMLocalService> { getLastFMLocalService(get()) }
@@ -48,7 +48,7 @@ fun getWeatherRemoteService(retrofit: Retrofit): OpenWeatherRemoteService {
     return retrofit.create(OpenWeatherRemoteService::class.java)
 }
 
-//Last FM
+// Last FM
 fun getLastFMLocalService(database: AndroidTemplateDatabase): LastFMLocalServiceImpl {
     return database.albumDao()
 }
