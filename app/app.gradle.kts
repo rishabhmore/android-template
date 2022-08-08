@@ -18,7 +18,7 @@ android {
         minSdk = 24
         targetSdk = 31
         applicationId = "com.wednesday.template"
-        versionCode = 10
+        versionCode = 11
         versionName = "1.0"
         testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
     }
