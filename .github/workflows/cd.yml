@@ -78,6 +78,8 @@ jobs:
           # in App Center Dashboard
           appName: ${{secrets.ORG_NAME}}/${{secrets.APP_NAME}}
           token: ${{secrets.APPCENTER_USER_API_KEY}}
+          # Create a Distribution Group first in AppCenter Dashboard > Distribute > Groups
+          # Then reference the name of that group here
           group: ${{secrets.GROUP_NAME}}
           file: ${{steps.sign_app.outputs.signedReleaseFile}}
           notifyTesters: true
