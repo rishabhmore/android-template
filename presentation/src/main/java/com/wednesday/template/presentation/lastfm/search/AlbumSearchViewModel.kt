@@ -86,6 +86,7 @@ class AlbumSearchViewModel(
     }
 
     override fun onIntent(intent: AlbumSearchScreenIntent) {
+        // Handle the intents for different actions in AlbumSearchScreen
         when (intent) {
             is AlbumSearchScreenIntent.SearchAlbums -> {
                 viewModelScope.launch {
