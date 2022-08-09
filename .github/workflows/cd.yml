@@ -77,6 +77,7 @@ jobs:
           # Here ORG_NAME will be your AppCenter user-name & APP_NAME should be the application name
           # in App Center Dashboard
           appName: ${{secrets.ORG_NAME}}/${{secrets.APP_NAME}}
+          # Create this API Key in Settings > API Keys
           token: ${{secrets.APPCENTER_USER_API_KEY}}
           # Create a Distribution Group first in AppCenter Dashboard > Distribute > Groups
           # Then reference the name of that group here
