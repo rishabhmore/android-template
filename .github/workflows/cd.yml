@@ -74,6 +74,8 @@ jobs:
       - name: Upload apk to App Center
         uses: wzieba/AppCenter-Github-Action@v1
         with:
+          # Here ORG_NAME will be your AppCenter user-name & APP_NAME should be the application name
+          # in App Center Dashboard
           appName: ${{secrets.ORG_NAME}}/${{secrets.APP_NAME}}
           token: ${{secrets.APPCENTER_USER_API_KEY}}
           group: ${{secrets.GROUP_NAME}}
